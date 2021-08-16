@@ -15,7 +15,7 @@ namespace CodingClassics.Actors
             time = 0;
         }
 
-        public void update()
+        public void Update()
         {
             // There are 5 impact sprites numbered 0 to 4. We update to a new sprite every 2 frames.
             Image = $"impact{(time / 2)}";

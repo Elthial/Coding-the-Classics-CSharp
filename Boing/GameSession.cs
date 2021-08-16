@@ -17,10 +17,10 @@ namespace CodingClassics
         public List<Impact> impacts;
       
         public int ai_offset;
-        private SpriteBatch _spriteBatch;
-        private Dictionary<string, Texture2D> _Texture2Ds;
-        private Dictionary<string, SoundEffect> _soundeffects;     
-        private KeyboardState keyboard;
+        private readonly SpriteBatch _spriteBatch;
+        private readonly Dictionary<string, Texture2D> _Texture2Ds;
+        private readonly Dictionary<string, SoundEffect> _soundeffects;     
+        private KeyboardState _keyboard;
 
         public GameSession(Boing boing, Func<int> p1_controls = null, Func<int> p2_controls = null) 
         {
@@ -28,6 +28,7 @@ namespace CodingClassics
             _spriteBatch = boing._spriteBatch;
             _Texture2Ds = boing._Texture2Ds;
             _soundeffects = boing._soundeffects;
+            _keyboard = boing._keyboard;
 
             // Create a list of two bats, giving each a player number and a function to use to receive control inputs (or the value None if this is intended to be an AI player)
             bats = new Bat[] { new Bat(this, 0, p1_controls), new Bat(this, 1, p2_controls) };
@@ -42,14 +43,15 @@ namespace CodingClassics
             ai_offset = 0;
         }
 
-        public void update()
+        public void Update(KeyboardState keyboard)
         {
-            keyboard = Keyboard.GetState();
+            //Update keyboardState
+            _keyboard = keyboard;
 
             //Update all active objects     
-            foreach (Bat b in bats) { b.update(); }
-            ball.update();
-            foreach (Impact i in impacts) { i.update(); }
+            foreach (Bat b in bats) { b.Update(); }
+            ball.Update();
+            foreach (Impact i in impacts) { i.Update(); }
 
 
             /*Remove any expired impact effects from the list. We go through the list backwards, starting from the last
@@ -65,7 +67,7 @@ namespace CodingClassics
             }
 
             //Has ball gone off the left or right edge of the screen?
-            if (ball.outofBounds())
+            if (ball.OutofBounds())
             {
                 //Work out which player gained a point, based on whether the ball was on the left or right-hand side of the screen
                 var scoring_player = (ball.X < (CodingClassics.Boing.WIDTH / 2)) ? 1 : 0;
@@ -80,7 +82,7 @@ namespace CodingClassics
                 if (bats[losing_player].Timer < 0)
                 {
                     bats[scoring_player].Score += 1;  
-                    play_sound("score_goal", 1);
+                    Play_sound("score_goal", 1);
                     bats[losing_player].Timer = 20;
                 }
                 else
@@ -95,7 +97,7 @@ namespace CodingClassics
             }
         }
 
-        public void draw()
+        public void Draw()
         {
             //Draw background
             _spriteBatch.Draw(_Texture2Ds["table"], Vector2.Zero, Color.White);
@@ -106,7 +108,7 @@ namespace CodingClassics
             //Draw 'just scored' effects, if required
             foreach(int p in players)
             {
-                if ((bats[p].Timer > 0) && (ball.outofBounds()))
+                if ((bats[p].Timer > 0) && (ball.OutofBounds()))
                 {
                     _spriteBatch.Draw(_Texture2Ds[$"effect{p}"], Vector2.Zero, Color.White);
                     //screen.blit("effect" + str(p), (0,0))
@@ -114,9 +116,9 @@ namespace CodingClassics
             } 
 
             //Draw bats, ball and impact effects - in that order.
-            foreach(Bat b in bats) { b.draw(_spriteBatch, _Texture2Ds); }
-            ball.draw(_spriteBatch, _Texture2Ds);
-            foreach(Impact i in impacts) { i.draw(_spriteBatch, _Texture2Ds); }
+            foreach(Bat b in bats) { b.Draw(_spriteBatch, _Texture2Ds); }
+            ball.Draw(_spriteBatch, _Texture2Ds);
+            foreach(Impact i in impacts) { i.Draw(_spriteBatch, _Texture2Ds); }
 
             //Display scores - outer loop goes through each player
             foreach(int p in players)
@@ -130,19 +132,19 @@ namespace CodingClassics
                     //Colour is usually grey but turns red or green (depending on player number) when a point has just been scored
                     var colour = "0";
                     var other_p = (1 - p);
-                    if ((bats[other_p].Timer > 0) && (ball.outofBounds()))
+                    if ((bats[other_p].Timer > 0) && (ball.OutofBounds()))
                     {
                         colour =  (p == 0) ? "2" : "1";
                         var image = $"digit{colour}{score[i]}";
                         var vector = new Vector2(255 + (160 * p) + (i * 55), 46);
-                        _spriteBatch.Draw(_Texture2Ds[image], Vector2.Zero, Color.White);
+                        _spriteBatch.Draw(_Texture2Ds[image], vector, Color.White);
                         //screen.blit(image, (255 + (160 * p) + (i* 55), 46))
                     }     
                 }         
             }
         }
 
-        public void play_sound(string name, int count= 1)
+        public void Play_sound(string name, int count= 1)
         {
             //Some sounds have multiple varieties. If count > 1, we'll randomly choose one from those
             //We don't play any in-game sound effects if player 0 is an AI player - as this means we're on the menu
@@ -167,16 +169,16 @@ namespace CodingClassics
             }
         }
 
-        public int p1_controls()
+        public int P1_controls()
         {
             int move = 0;
-            if(keyboard.IsKeyDown(Keys.Z) || keyboard.IsKeyDown(Keys.Down))
+            if(_keyboard.IsKeyDown(Keys.Z) || _keyboard.IsKeyDown(Keys.Down))
             {
                 move = CodingClassics.Boing.PLAYER_SPEED;
             }
             else
             {
-                if (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Up))
+                if (_keyboard.IsKeyDown(Keys.A) || _keyboard.IsKeyDown(Keys.Up))
                 {
                     move = -CodingClassics.Boing.PLAYER_SPEED;
                 }
@@ -184,16 +186,16 @@ namespace CodingClassics
             return move;
         }
 
-        public int p2_controls()
+        public int P2_controls()
         {
             int move = 0;
-            if (keyboard.IsKeyDown(Keys.M))
+            if (_keyboard.IsKeyDown(Keys.M))
             {
                 move = CodingClassics.Boing.PLAYER_SPEED;
             }
             else
             {
-                if (keyboard.IsKeyDown(Keys.K))
+                if (_keyboard.IsKeyDown(Keys.K))
                 {
                     move = -CodingClassics.Boing.PLAYER_SPEED;
                 }

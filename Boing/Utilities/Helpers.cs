@@ -7,7 +7,7 @@ namespace CodingClassics
 {
     public static class Helpers
     {
-        public static Vector2 normalised(int X, int Y)
+        public static Vector2 Normalised(int X, int Y)
         {
             /* Return a unit vector
             # Get length of vector (x,y) - math.hypot uses Pythagoras' theorem to get length of hypotenuse
@@ -17,7 +17,7 @@ namespace CodingClassics
             return new Vector2(X / length, Y / length);            
         }
 
-        public static int sign(int X)
+        public static int Sign(int X)
         {
             // Returns -1 or 1 depending on whether number is positive or negative
             return (X < 0) ? -1 : 1;

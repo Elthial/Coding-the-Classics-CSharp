@@ -11,8 +11,7 @@ namespace CodingClassics.Actors
         private int dX;
         private int dY;
         private int Speed;
-
-        GameSession _game;
+        readonly GameSession _game;
 
         public Ball(GameSession game, int dx) : base("ball", new Vector2(0,0))
         {
@@ -35,7 +34,7 @@ namespace CodingClassics.Actors
             Speed = 5;
         }
 
-        public void update()
+        public void Update()
         {
             //Each frame, we move the ball in a series of small steps - the number of steps being based on its speed attribute
             for (int i = 0; i < Speed; i++)
@@ -113,7 +112,7 @@ namespace CodingClassics.Actors
                         dY = Math.Min(Math.Max(dY, -1), 1);
 
                         // Ensure our direction vector is a unit vector, i.e. represents a distance of the equivalent of 1 pixel regardless of its angle
-                        var vec2 = Helpers.normalised(dX, dY);
+                        var vec2 = Helpers.Normalised(dX, dY);
                         dX = (int)vec2.X;
                         dY = (int)vec2.Y;
 
@@ -131,19 +130,19 @@ namespace CodingClassics.Actors
                         bat.Timer = 10;
 
                         // Play hit sounds, with more intense sound effects as the ball gets faster
-                        _game.play_sound("hit", 5);  // play every time in addition to:
+                        _game.Play_sound("hit", 5);  // play every time in addition to:
 
                         if (Speed <= 10)
-                            _game.play_sound("hit_slow", 1);
+                            _game.Play_sound("hit_slow", 1);
 
                         if (Speed <= 12)
-                            _game.play_sound("hit_medium", 1);
+                            _game.Play_sound("hit_medium", 1);
 
                         if (Speed <= 16)
-                            _game.play_sound("hit_fast", 1);
+                            _game.Play_sound("hit_fast", 1);
 
                         if (Speed <= 17)
-                            _game.play_sound("hit_veryfast", 1);
+                            _game.Play_sound("hit_veryfast", 1);
                     }
                 }
 
@@ -158,14 +157,14 @@ namespace CodingClassics.Actors
                     _game.impacts.Add(new Impact(Pos));
 
                     // Sound effect
-                    _game.play_sound("bounce", 5);
-                    _game.play_sound("bounce_synth", 1);
+                    _game.Play_sound("bounce", 5);
+                    _game.Play_sound("bounce_synth", 1);
                 }
             }
 
         }
 
-        public bool outofBounds()
+        public bool OutofBounds()
         {
             // Has ball gone off the left or right edge of the screen?
             return (X < 0) || (X > CodingClassics.Boing.WIDTH);

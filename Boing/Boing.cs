@@ -15,6 +15,7 @@ namespace CodingClassics
         internal SpriteBatch _spriteBatch;
         internal Dictionary<string, SoundEffect> _soundeffects;
         internal Dictionary<string, Texture2D> _Texture2Ds;
+        internal KeyboardState _keyboard;
 
         // Global variables  
         public static readonly string TITLE = "Boing!";
@@ -32,14 +33,17 @@ namespace CodingClassics
         bool space_down;
  
         public Boing()
-        {
+        {            
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = WIDTH;
+            _graphics.PreferredBackBufferHeight = HEIGHT;
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;       
+            IsMouseVisible = true;
+            Window.Title = TITLE;
         }
 
         protected override void Initialize()
-        {
+        {        
             //Set the initial game state
             State = GameState.MENU;
 
@@ -139,18 +143,18 @@ namespace CodingClassics
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            _keyboard = Keyboard.GetState();
 
-            var keyboard = Keyboard.GetState();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || _keyboard.IsKeyDown(Keys.Escape))
+                Exit();            
 
             // Work out whether the space key has just been pressed - i.e. in the previous frame it wasn't down, and in this frame it is.
             var space_pressed = false;
-            if (keyboard.IsKeyDown(Keys.Space) && !space_down)
+            if (_keyboard.IsKeyDown(Keys.Space) && !space_down)
             {
                 space_pressed = true;                
             }
-            space_down = keyboard.IsKeyDown(Keys.Space);
+            space_down = _keyboard.IsKeyDown(Keys.Space);
 
             if (State == GameState.MENU)
             {
@@ -161,10 +165,10 @@ namespace CodingClassics
                      * indicating this player should be computer-controlled) */
                     State = GameState.PLAY;
 
-                    List<Func<int>> controls = new List<Func<int>> { new Func<int>(Session.p1_controls) };
+                    List<Func<int>> controls = new List<Func<int>> { new Func<int>(Session.P1_controls) };
                     if (num_players.Equals(2))
                     {
-                        controls.Add(new Func<int>(Session.p2_controls));
+                        controls.Add(new Func<int>(Session.P2_controls));
                     }
                     else
                     {
@@ -176,14 +180,14 @@ namespace CodingClassics
                 else
                 {
                     //Detect up/down keys
-                    if (num_players.Equals(2) && keyboard.IsKeyDown(Keys.Up))
+                    if (num_players.Equals(2) && _keyboard.IsKeyDown(Keys.Up))
                     {                       
                         _soundeffects["up"].Play();
                         num_players = 1;
                     }
                     else
                     {
-                        if (num_players.Equals(1) && keyboard.IsKeyDown(Keys.Down))
+                        if (num_players.Equals(1) && _keyboard.IsKeyDown(Keys.Down))
                         {              
                             _soundeffects["down"].Play();
                             num_players = 2;
@@ -191,7 +195,7 @@ namespace CodingClassics
                     }
 
                     //Update the 'attract mode' game in the background (two AIs playing each other)
-                    Session.update();
+                    Session.Update(_keyboard);
                 }
             }
             else
@@ -205,7 +209,7 @@ namespace CodingClassics
                     }
                     else
                     {
-                        Session.update();
+                        Session.Update(_keyboard);
                     }
                 }                
 
@@ -230,7 +234,7 @@ namespace CodingClassics
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-            Session.draw();
+            Session.Draw();
 
             if (State == GameState.MENU)
             {

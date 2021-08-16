@@ -13,8 +13,7 @@ namespace CodingClassics.Actors
         public int Timer;
 
         public Func<int> Move_func;
-
-        GameSession _game;
+        readonly GameSession _game;
 
         public Bat(GameSession game, int player, Func<int> move_func = null) : base("blank", new Vector2(((player.Equals(0)) ? 40 : 760), CodingClassics.Boing.HALF_HEIGHT))
         {
@@ -47,7 +46,7 @@ namespace CodingClassics.Actors
             Timer = 0;
         }
 
-        public void update()
+        public void Update()
         {
             Timer -= 1;
 
@@ -66,7 +65,7 @@ namespace CodingClassics.Actors
             if (Timer > 0)
             {
 
-                if (_game.ball.outofBounds())
+                if (_game.ball.OutofBounds())
                 {
                     frame = 2;
                 }

@@ -19,7 +19,7 @@ namespace CodingClassics.Actors
             Pos = pos;          
         }
 
-        public void draw(SpriteBatch _spriteBatch, Dictionary<string, Texture2D> _Texture2Ds)
+        public void Draw(SpriteBatch _spriteBatch, Dictionary<string, Texture2D> _Texture2Ds)
         {        
             _spriteBatch.Draw(_Texture2Ds[Image], Pos, Color.White);  //draw image at pos
         }
