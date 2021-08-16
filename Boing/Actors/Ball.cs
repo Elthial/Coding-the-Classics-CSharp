@@ -8,8 +8,8 @@ namespace CodingClassics.Actors
 {
     class Ball : Actor
     {
-        private int dX;
-        private int dY;
+        private float dX;
+        private float dY;
         private int Speed;
         readonly GameSession _game;
 
@@ -113,8 +113,8 @@ namespace CodingClassics.Actors
 
                         // Ensure our direction vector is a unit vector, i.e. represents a distance of the equivalent of 1 pixel regardless of its angle
                         var vec2 = Helpers.Normalised(dX, dY);
-                        dX = (int)vec2.X;
-                        dY = (int)vec2.Y;
+                        dX = vec2.X;
+                        dY = vec2.Y;
 
                         // Create an impact effect
                         _game.impacts.Add(new Impact(new Vector2(X - new_dir_x * 10, Y)));

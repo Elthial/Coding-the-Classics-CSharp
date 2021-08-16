@@ -20,8 +20,14 @@ namespace CodingClassics.Actors
         }
 
         public void Draw(SpriteBatch _spriteBatch, Dictionary<string, Texture2D> _Texture2Ds)
-        {        
-            _spriteBatch.Draw(_Texture2Ds[Image], Pos, Color.White);  //draw image at pos
+        {
+            var texture = _Texture2Ds[Image];
+            var offsetx = texture.Width / 2;
+            var offsety = texture.Height / 2;
+
+            var offsetPos = new Vector2(Pos.X - offsetx, Pos.Y - offsety);
+
+            _spriteBatch.Draw(texture, offsetPos, Color.White);  //draw image at pos
         }
     }
 }
