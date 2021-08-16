@@ -1,9 +1,10 @@
 ﻿using CodingClassics;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Boing.Actors
+namespace CodingClassics.Actors
 {
     class Ball : Actor
     {
@@ -13,14 +14,15 @@ namespace Boing.Actors
 
         GameSession _game;
 
-        public Ball(GameSession game, int dx) : base("ball", (0,0))
+        public Ball(GameSession game, int dx) : base("ball", new Vector2(0,0))
         {
             //Need to talk with parent
             _game = game;
-           
 
-            X = BoingGame.HALF_WIDTH;
-            Y = BoingGame.HALF_HEIGHT;
+            this.
+
+            Pos.X = CodingClassics.Boing.HALF_WIDTH;
+            Pos.Y = CodingClassics.Boing.HALF_HEIGHT;
 
             // dx and dy together describe the direction in which the ball is moving. For example, if dx and dy are 1 and 0,
             // the ball is moving to the right, with no movement up or down. If both values are negative, the ball is moving
@@ -42,8 +44,8 @@ namespace Boing.Actors
                 var original_x = X;
 
                 // Move the ball based on dx and dy
-                X += dX;
-                Y += dY;
+                Pos.X += dX;
+                Pos.Y += dY;
 
                 // Check to see if ball needs to bounce off a bat
 
@@ -59,7 +61,7 @@ namespace Boing.Actors
 
                 // We also check the previous X position to ensure that this is the first frame in which the ball crossed the threshold. 
 
-                if ((Math.Abs(X - CodingClassics.BoingGame.HALF_WIDTH) >= 344) && (Math.Abs(original_x - CodingClassics.BoingGame.HALF_WIDTH) < 344))
+                if ((Math.Abs(X - CodingClassics.Boing.HALF_WIDTH) >= 344) && (Math.Abs(original_x - CodingClassics.Boing.HALF_WIDTH) < 344))
                 {
 
                     /* Now that we know the edge of the ball has crossed the threshold on the x-axis, we need to check to
@@ -69,7 +71,7 @@ namespace Boing.Actors
                     int new_dir_x;
                     Bat bat;
 
-                    if (X < BoingGame.HALF_WIDTH)
+                    if (X < CodingClassics.Boing.HALF_WIDTH)
                     {
                         new_dir_x = 1;
                         bat = _game.bats[0];
@@ -116,7 +118,7 @@ namespace Boing.Actors
                         dY = (int)vec2.Y;
 
                         // Create an impact effect
-                        _game.impacts.Add(new Impact((X - new_dir_x * 10, Y)));
+                        _game.impacts.Add(new Impact(new Vector2(X - new_dir_x * 10, Y)));
 
                         // Increase speed with each hit
                         Speed++;
@@ -146,14 +148,14 @@ namespace Boing.Actors
                 }
 
                 // The top and bottom of the arena are 220 pixels from the centre
-                if (Math.Abs(Y - BoingGame.HALF_HEIGHT) > 220)
+                if (Math.Abs(Y - CodingClassics.Boing.HALF_HEIGHT) > 220)
                 {
                     // Invert vertical direction and apply new dy to y so that the ball is no longer overlapping with the edge of the arena
                     dY = -dY;
-                    Y += dY;
+                    Pos.Y += dY;
 
                     // Create impact effect
-                    _game.impacts.Add(new Impact(pos));
+                    _game.impacts.Add(new Impact(Pos));
 
                     // Sound effect
                     _game.play_sound("bounce", 5);
@@ -166,7 +168,7 @@ namespace Boing.Actors
         public bool outofBounds()
         {
             // Has ball gone off the left or right edge of the screen?
-            return (X < 0) || (X > BoingGame.WIDTH);
+            return (X < 0) || (X > CodingClassics.Boing.WIDTH);
         }
     }
 }

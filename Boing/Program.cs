@@ -7,7 +7,7 @@ namespace CodingClassics
         [STAThread]
         static void Main()
         {
-            using (var game = new BoingGame())
+            using (var game = new Boing())
                 game.Run();
         }
     }

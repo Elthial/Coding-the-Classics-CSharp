@@ -1,27 +1,28 @@
 ﻿using CodingClassics;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Boing.Actors
+namespace CodingClassics.Actors
 {
     class Bat : Actor
     {
         public int Player;
         public int Score;
         public int Timer;
-    
-        private Func<int> Move_func;
+
+        public Func<int> Move_func;
 
         GameSession _game;
 
-        public Bat(GameSession game, int player, Func<int> move_func = null) : base("blank", (((player == 0) ? 40 : 760), BoingGame.HALF_HEIGHT))
+        public Bat(GameSession game, int player, Func<int> move_func = null) : base("blank", new Vector2(((player.Equals(0)) ? 40 : 760), CodingClassics.Boing.HALF_HEIGHT))
         {
             //Need to talk to parent
             _game = game;
 
-            X = ((player == 0) ? 40 : 760);
-            Y = BoingGame.HALF_HEIGHT;
+            Pos.X = ((player == 0) ? 40 : 760);
+            Pos.Y = CodingClassics.Boing.HALF_HEIGHT;
            
             Player = player;
             Score = 0;
@@ -54,7 +55,7 @@ namespace Boing.Actors
             var y_movement = Move_func();
 
             //Apply y_movement to y position, ensuring bat does not go through the side walls
-            Y = Math.Min(400, Math.Max(80, Y + y_movement));
+            Pos.Y = Math.Min(400, Math.Max(80, Y + y_movement));
 
             /* Choose the appropriate sprite. There are 3 sprites per player - e.g. bat00 is the left-hand player's
                standard bat sprite, bat01 is the sprite to use when the ball has just bounced off the bat, and bat02
@@ -75,10 +76,10 @@ namespace Boing.Actors
                 }
             }
 
-            image = $"bat{Player}{frame}";
+            Image = $"bat{Player}{frame}";
         }
 
-        private int AI()
+        public int AI()
         {
 
             //Returns a number indicating how the computer player will move - e.g. 4 means it will move 4 pixels downthe screen.
@@ -89,7 +90,7 @@ namespace Boing.Actors
             /*If the ball is far away, we move towards the centre of the screen (HALF_HEIGHT), on the basis that we don't
               yet know whether the ball will be in the top or bottom half of the screen when it reaches our position on
               the X axis. By waiting at a central position, we're as ready as it's possible to be for all eventualities. */
-            var target_y_1 = BoingGame.HALF_HEIGHT;
+            var target_y_1 = CodingClassics.Boing.HALF_HEIGHT;
 
             /* If the ball is close, we want to move towards its position on the Y axis. We also apply a small offset which
                is randomly generated each time the ball bounces. This is to make the computer player slightly less robotic
@@ -103,13 +104,13 @@ namespace Boing.Actors
                ball is at the same position as us on the X axis, our target will be target_y_2. If it's 200 pixels away,
                we'll aim for halfway between target_y_1 and target_y_2. This reflects the idea that as the ball gets closer,
                we have a better idea of where it's going to end up. */
-            var weight1 = Math.Min(1, x_distance / BoingGame.HALF_WIDTH);
+            var weight1 = Math.Min(1, x_distance / CodingClassics.Boing.HALF_WIDTH);
             var weight2 = 1 - weight1;
 
             var target_y = (weight1 * target_y_1) + (weight2 * target_y_2);
 
             //Subtract target_y from our current Y position, then make sure we can't move any further than MAX_AI_SPEED each frame
-            return Math.Min(BoingGame.MAX_AI_SPEED, Math.Max(-BoingGame.MAX_AI_SPEED, target_y - Y));
+            return Math.Min(CodingClassics.Boing.MAX_AI_SPEED, Math.Max(-CodingClassics.Boing.MAX_AI_SPEED, target_y - Y));
         }
     }
 }

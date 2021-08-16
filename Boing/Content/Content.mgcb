@@ -613,21 +613,9 @@
 /processorParam:Quality=Best
 /build:sounds/bounce_synth0.ogg
 
-#begin sounds/bounce_synth0.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:sounds/bounce_synth0.ogg
-
 #begin sounds/bounce0.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/bounce0.ogg
-
-#begin sounds/bounce0.ogg
-/importer:OggImporter
-/processor:SongProcessor
 /processorParam:Quality=Best
 /build:sounds/bounce0.ogg
 
@@ -637,21 +625,9 @@
 /processorParam:Quality=Best
 /build:sounds/bounce1.ogg
 
-#begin sounds/bounce1.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:sounds/bounce1.ogg
-
 #begin sounds/bounce2.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/bounce2.ogg
-
-#begin sounds/bounce2.ogg
-/importer:OggImporter
-/processor:SongProcessor
 /processorParam:Quality=Best
 /build:sounds/bounce2.ogg
 
@@ -661,21 +637,9 @@
 /processorParam:Quality=Best
 /build:sounds/bounce3.ogg
 
-#begin sounds/bounce3.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:sounds/bounce3.ogg
-
 #begin sounds/bounce4.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/bounce4.ogg
-
-#begin sounds/bounce4.ogg
-/importer:OggImporter
-/processor:SongProcessor
 /processorParam:Quality=Best
 /build:sounds/bounce4.ogg
 
@@ -691,21 +655,9 @@
 /processorParam:Quality=Best
 /build:sounds/hit_fast0.ogg
 
-#begin sounds/hit_fast0.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:sounds/hit_fast0.ogg
-
 #begin sounds/hit_medium0.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/hit_medium0.ogg
-
-#begin sounds/hit_medium0.ogg
-/importer:OggImporter
-/processor:SongProcessor
 /processorParam:Quality=Best
 /build:sounds/hit_medium0.ogg
 
@@ -715,21 +667,9 @@
 /processorParam:Quality=Best
 /build:sounds/hit_slow0.ogg
 
-#begin sounds/hit_slow0.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:sounds/hit_slow0.ogg
-
 #begin sounds/hit_synth0.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/hit_synth0.ogg
-
-#begin sounds/hit_synth0.ogg
-/importer:OggImporter
-/processor:SongProcessor
 /processorParam:Quality=Best
 /build:sounds/hit_synth0.ogg
 
@@ -739,21 +679,9 @@
 /processorParam:Quality=Best
 /build:sounds/hit_veryfast0.ogg
 
-#begin sounds/hit_veryfast0.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:sounds/hit_veryfast0.ogg
-
 #begin sounds/hit0.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/hit0.ogg
-
-#begin sounds/hit0.ogg
-/importer:OggImporter
-/processor:SongProcessor
 /processorParam:Quality=Best
 /build:sounds/hit0.ogg
 
@@ -763,21 +691,9 @@
 /processorParam:Quality=Best
 /build:sounds/hit1.ogg
 
-#begin sounds/hit1.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:sounds/hit1.ogg
-
 #begin sounds/hit2.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/hit2.ogg
-
-#begin sounds/hit2.ogg
-/importer:OggImporter
-/processor:SongProcessor
 /processorParam:Quality=Best
 /build:sounds/hit2.ogg
 
@@ -787,33 +703,15 @@
 /processorParam:Quality=Best
 /build:sounds/hit3.ogg
 
-#begin sounds/hit3.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:sounds/hit3.ogg
-
 #begin sounds/hit4.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/hit4.ogg
 
-#begin sounds/hit4.ogg
-/importer:OggImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:sounds/hit4.ogg
-
 #begin sounds/score_goal0.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/score_goal0.ogg
-
-#begin sounds/score_goal0.ogg
-/importer:OggImporter
-/processor:SongProcessor
 /processorParam:Quality=Best
 /build:sounds/score_goal0.ogg
 

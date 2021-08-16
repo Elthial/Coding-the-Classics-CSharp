@@ -1,29 +1,27 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Boing.Actors
+namespace CodingClassics.Actors
 {
     public class Actor
     {
-        public string name;
-        public int X;
-        public int Y;
-        public string image;
+        public string Image;
+        public Vector2 Pos;
+        public int X => (int)Pos.X;
+        public int Y => (int)Pos.Y;        
         
-        public (int x, int y) pos;
-
-        public Actor(string Name, (int x, int y) Pos)
+        public Actor(string image, Vector2 pos)
         {
-            name = Name;
-            X = Pos.x;
-            Y = Pos.y;
+            Image = image;
+            Pos = pos;          
         }
 
-        public void draw()
-        {
-            //draw image at pos
+        public void draw(SpriteBatch _spriteBatch, Dictionary<string, Texture2D> _Texture2Ds)
+        {        
+            _spriteBatch.Draw(_Texture2Ds[Image], Pos, Color.White);  //draw image at pos
         }
     }
 }

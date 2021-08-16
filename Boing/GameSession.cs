@@ -1,11 +1,14 @@
-﻿using Boing.Actors;
+﻿using CodingClassics.Actors;
 using CodingClassics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Boing
+namespace CodingClassics
 {
     class GameSession
     {
@@ -14,11 +17,18 @@ namespace Boing
         public List<Impact> impacts;
       
         public int ai_offset;
-
+        private SpriteBatch _spriteBatch;
+        private Dictionary<string, Texture2D> _Texture2Ds;
+        private Dictionary<string, SoundEffect> _soundeffects;     
         private KeyboardState keyboard;
 
-        public GameSession(Func<int> p1_controls = null, Func<int> p2_controls = null) 
+        public GameSession(Boing boing, Func<int> p1_controls = null, Func<int> p2_controls = null) 
         {
+            //Setup of XNA systems
+            _spriteBatch = boing._spriteBatch;
+            _Texture2Ds = boing._Texture2Ds;
+            _soundeffects = boing._soundeffects;
+
             // Create a list of two bats, giving each a player number and a function to use to receive control inputs (or the value None if this is intended to be an AI player)
             bats = new Bat[] { new Bat(this, 0, p1_controls), new Bat(this, 1, p2_controls) };
 
@@ -58,7 +68,7 @@ namespace Boing
             if (ball.outofBounds())
             {
                 //Work out which player gained a point, based on whether the ball was on the left or right-hand side of the screen
-                var scoring_player = (ball.X < (BoingGame.WIDTH / 2)) ? 1 : 0;
+                var scoring_player = (ball.X < (CodingClassics.Boing.WIDTH / 2)) ? 1 : 0;
                 var losing_player = 1 - scoring_player;
 
                 /*We use the timer of the player who has just conceded a point to decide when to create a new ball in the centre of the level. 
@@ -86,8 +96,9 @@ namespace Boing
         }
 
         public void draw()
-        {          
+        {
             //Draw background
+            _spriteBatch.Draw(_Texture2Ds["table"], Vector2.Zero, Color.White);
             //screen.blit("table", (0,0))
 
             int[] players = { 0, 1 };
@@ -97,14 +108,15 @@ namespace Boing
             {
                 if ((bats[p].Timer > 0) && (ball.outofBounds()))
                 {
+                    _spriteBatch.Draw(_Texture2Ds[$"effect{p}"], Vector2.Zero, Color.White);
                     //screen.blit("effect" + str(p), (0,0))
                 }
             } 
 
             //Draw bats, ball and impact effects - in that order.
-            foreach(Bat b in bats) { b.draw(); }
-            ball.draw();
-            foreach(Impact i in impacts) { i.draw(); }
+            foreach(Bat b in bats) { b.draw(_spriteBatch, _Texture2Ds); }
+            ball.draw(_spriteBatch, _Texture2Ds);
+            foreach(Impact i in impacts) { i.draw(_spriteBatch, _Texture2Ds); }
 
             //Display scores - outer loop goes through each player
             foreach(int p in players)
@@ -122,6 +134,8 @@ namespace Boing
                     {
                         colour =  (p == 0) ? "2" : "1";
                         var image = $"digit{colour}{score[i]}";
+                        var vector = new Vector2(255 + (160 * p) + (i * 55), 46);
+                        _spriteBatch.Draw(_Texture2Ds[image], Vector2.Zero, Color.White);
                         //screen.blit(image, (255 + (160 * p) + (i* 55), 46))
                     }     
                 }         
@@ -133,7 +147,7 @@ namespace Boing
             //Some sounds have multiple varieties. If count > 1, we'll randomly choose one from those
             //We don't play any in-game sound effects if player 0 is an AI player - as this means we're on the menu
 
-            if (true)//(bats[0].move_func != bats[0].ai)
+            if (bats[0].Move_func != bats[0].AI)
             {
                 /*Pygame Zero allows you to write things like 'sounds.explosion.play()'
                   This automatically loads and plays a file named 'explosion.wav' (or .ogg) from the sounds folder (if such a file exists)
@@ -143,6 +157,8 @@ namespace Boing
                 try
                 {
                     //getattr(sounds, name + str(random.randint(0, count - 1))).play()
+                    var rand = new Random().Next(0, count - 1);
+                    _soundeffects[$"{name}{rand}"].Play();
                 }
                 catch (System.Exception)
                 {
@@ -156,13 +172,13 @@ namespace Boing
             int move = 0;
             if(keyboard.IsKeyDown(Keys.Z) || keyboard.IsKeyDown(Keys.Down))
             {
-                move = BoingGame.PLAYER_SPEED;
+                move = CodingClassics.Boing.PLAYER_SPEED;
             }
             else
             {
                 if (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Up))
                 {
-                    move = -BoingGame.PLAYER_SPEED;
+                    move = -CodingClassics.Boing.PLAYER_SPEED;
                 }
             }
             return move;
@@ -173,13 +189,13 @@ namespace Boing
             int move = 0;
             if (keyboard.IsKeyDown(Keys.M))
             {
-                move = BoingGame.PLAYER_SPEED;
+                move = CodingClassics.Boing.PLAYER_SPEED;
             }
             else
             {
                 if (keyboard.IsKeyDown(Keys.K))
                 {
-                    move = -BoingGame.PLAYER_SPEED;
+                    move = -CodingClassics.Boing.PLAYER_SPEED;
                 }
             }
             return move;
