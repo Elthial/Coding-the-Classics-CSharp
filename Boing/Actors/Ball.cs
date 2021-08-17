@@ -81,7 +81,7 @@ namespace CodingClassics.Actors
                         bat = _game.bats[1];
                     }
 
-                    var difference_y = Y - bat.Y;
+                    float difference_y = Y - bat.Y;
 
                     if ((difference_y > -64) && (difference_y < 64))
                     {

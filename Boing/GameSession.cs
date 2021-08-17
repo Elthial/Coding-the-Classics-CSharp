@@ -20,7 +20,6 @@ namespace CodingClassics
         private readonly SpriteBatch _spriteBatch;
         private readonly Dictionary<string, Texture2D> _Texture2Ds;
         private readonly Dictionary<string, SoundEffect> _soundeffects;     
-        private KeyboardState _keyboard;
 
         public GameSession(Boing boing, Func<int> p1_controls = null, Func<int> p2_controls = null) 
         {
@@ -28,8 +27,7 @@ namespace CodingClassics
             _spriteBatch = boing._spriteBatch;
             _Texture2Ds = boing._Texture2Ds;
             _soundeffects = boing._soundeffects;
-            _keyboard = boing._keyboard;
-
+            
             // Create a list of two bats, giving each a player number and a function to use to receive control inputs (or the value None if this is intended to be an AI player)
             bats = new Bat[] { new Bat(this, 0, p1_controls), new Bat(this, 1, p2_controls) };
 
@@ -43,11 +41,8 @@ namespace CodingClassics
             ai_offset = 0;
         }
 
-        public void Update(KeyboardState keyboard)
-        {
-            //Update keyboardState
-            _keyboard = keyboard;
-
+        public void Update()
+        {           
             //Update all active objects     
             foreach (Bat b in bats) { b.Update(); }
             ball.Update();
@@ -124,7 +119,7 @@ namespace CodingClassics
             foreach(int p in players)
             {
                 //Convert score into a string of 2 digits (e.g. "05") so we can later get the individual digits
-                var score = bats[p].Score.ToString("{0:02d}");
+                var score = bats[p].Score.ToString("00");
                 //Inner loop goes through each digit
                 foreach (int i in players)
                 {
@@ -171,14 +166,15 @@ namespace CodingClassics
 
         public int P1_controls()
         {
+            var keyboard = Keyboard.GetState();
             int move = 0;
-            if(_keyboard.IsKeyDown(Keys.Z) || _keyboard.IsKeyDown(Keys.Down))
+            if(keyboard.IsKeyDown(Keys.Z) | keyboard.IsKeyDown(Keys.Down))
             {
                 move = CodingClassics.Boing.PLAYER_SPEED;
             }
             else
             {
-                if (_keyboard.IsKeyDown(Keys.A) || _keyboard.IsKeyDown(Keys.Up))
+                if (keyboard.IsKeyDown(Keys.A) | keyboard.IsKeyDown(Keys.Up))
                 {
                     move = -CodingClassics.Boing.PLAYER_SPEED;
                 }
@@ -188,14 +184,15 @@ namespace CodingClassics
 
         public int P2_controls()
         {
+            var keyboard = Keyboard.GetState();
             int move = 0;
-            if (_keyboard.IsKeyDown(Keys.M))
+            if (keyboard.IsKeyDown(Keys.M))
             {
                 move = CodingClassics.Boing.PLAYER_SPEED;
             }
             else
             {
-                if (_keyboard.IsKeyDown(Keys.K))
+                if (keyboard.IsKeyDown(Keys.K))
                 {
                     move = -CodingClassics.Boing.PLAYER_SPEED;
                 }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 
@@ -16,6 +17,8 @@ namespace CodingClassics
         internal Dictionary<string, SoundEffect> _soundeffects;
         internal Dictionary<string, Texture2D> _Texture2Ds;
         internal KeyboardState _keyboard;
+
+        private Song BackgroundSong;
 
         // Global variables  
         public static readonly string TITLE = "Boing!";
@@ -60,6 +63,9 @@ namespace CodingClassics
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            BackgroundSong = Content.Load<Song>($"music/theme");          
+            MediaPlayer.IsRepeating = true;
 
             _soundeffects = new Dictionary<string, SoundEffect>
             {
@@ -139,6 +145,8 @@ namespace CodingClassics
 
             // Create a new Game object, without any players  
             Session = new GameSession(this, null, null);
+
+            MediaPlayer.Play(BackgroundSong);
         }
 
         protected override void Update(GameTime gameTime)
@@ -195,7 +203,7 @@ namespace CodingClassics
                     }
 
                     //Update the 'attract mode' game in the background (two AIs playing each other)
-                    Session.Update(_keyboard);
+                    Session.Update();
                 }
             }
             else
@@ -209,7 +217,7 @@ namespace CodingClassics
                     }
                     else
                     {
-                        Session.Update(_keyboard);
+                        Session.Update();
                     }
                 }                
 
@@ -226,6 +234,8 @@ namespace CodingClassics
                     }
                 }
             }
+                        
+            
 
             base.Update(gameTime);
         }
