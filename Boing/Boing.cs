@@ -53,9 +53,7 @@ namespace CodingClassics
             num_players = 1;
 
             //Is space currently being held down?
-            space_down = false;            
-
-            
+            space_down = false;                                   
 
             base.Initialize();
         }

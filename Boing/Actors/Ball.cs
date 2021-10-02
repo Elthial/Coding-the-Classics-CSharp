@@ -16,9 +16,7 @@ namespace CodingClassics.Actors
         public Ball(GameSession game, int dx) : base("ball", new Vector2(0,0))
         {
             //Need to talk with parent
-            _game = game;
-
-            this.
+            _game = game;            
 
             Pos.X = CodingClassics.Boing.HALF_WIDTH;
             Pos.Y = CodingClassics.Boing.HALF_HEIGHT;
